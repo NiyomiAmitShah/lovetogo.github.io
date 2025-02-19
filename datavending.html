@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vending Machine Data Collector</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F3E1DD;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .vending-machine {
+            background: #FFFFFF;
+            border: 3px solid #89023E;
+            padding: 20px;
+            border-radius: 15px;
+            width: 500px;
+            text-align: center;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 10;
+        }
+        .currency {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #89023E;
+        }
+        input, button, textarea {
+            background: #F3E1DD;
+            color: #000000;
+            border: 1px solid #89023E;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            width: 200px;
+        }
+        input::placeholder, textarea::placeholder {
+            color: #89023E;
+        }
+        button {
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .submit {
+            background-color: #CC7178;
+            color: #FFFFFF;
+        }
+        .exit {
+            background-color: #C7D9B7;
+            color: #000000;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+        .questions {
+            display: none;
+            margin-top: 15px;
+            text-align: left;
+        }
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #CC7178;
+            transform: rotate(45deg);
+            z-index: -1;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #CC7178;
+        }
+
+        .heart::before {
+            top: -20px;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: -20px;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(45deg); opacity: 1; }
+            50% { transform: translateY(-20px) rotate(45deg); opacity: 0.6; }
+            100% { transform: translateY(0) rotate(45deg); opacity: 1; }
+        }
+    </style>
+    <script>
+        function createHearts() {
+            for (let i = 0; i < 30; i++) {
+                let heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.style.left = Math.random() * window.innerWidth + 'px';
+                heart.style.top = Math.random() * window.innerHeight + 'px';
+                heart.style.animation = `float ${Math.random() * 3 + 2}s infinite ease-in-out`;
+                document.body.appendChild(heart);
+            }
+        }
+        window.onload = createHearts;
+        
+        let currency = 0;
+        let userData = {};
+        let questions = [
+            "What's your go-to move when you're trying to impress someone?",
+            "What's a small trait that makes someone instantly more attractive?",
+            "What's the most awkward moment you've had on a date?",
+            "Are you still friends with an ex? Why or why not?",
+            "What's your stance on sexting—thrill or trouble?",
+            "Would you rather have amazing foreplay or mind-blowing sex?",
+            "What's your most 'damn, that was hot' sexual experience?",
+            "What's the most desperate thing you've done when you were really turned on?",
+            "What's the most painful or heartbreaking experience you've had in romance?"
+        ];
+        let questionIndex = 0;
+        let responses = [];
+
+        function startSurvey() {
+            userData.name = document.getElementById("name").value;
+            userData.age = document.getElementById("age").value;
+            userData.sexuality = document.getElementById("sexuality").value;
+            userData.relationshiptype = document.getElementById("relationshiptype").value;
+
+            currency = 0; // Start with 0 currency
+            document.getElementById("currency").innerText = currency;
+            document.getElementById("question-section").style.display = "block";
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            if (questionIndex < questions.length) {
+                document.getElementById("question-text").innerText = questions[questionIndex];
+                document.getElementById("response").value = "";
+                document.getElementById("response").focus();
+            } else {
+                document.getElementById("question-section").style.display = "none";
+            }
+        }
+
+        function handleEnterPress(event) {
+            if (event.key === "Enter") {
+                let responseText = document.getElementById("response").value.trim();
+                if (responseText !== "") {
+                    responses.push({ question: questions[questionIndex], answer: responseText });
+                    currency += 10; // Increase currency by 10 per answer
+                    document.getElementById("currency").innerText = currency;
+                    questionIndex++;
+                    nextQuestion();
+                }
+            }
+        }
+
+        function endSurvey() {
+            let receiptData = {
+                name: userData.name,
+                age: userData.age,
+                sexuality: userData.sexuality,
+                relationshiptype: userData.relationshiptype,
+                responses: responses
+            };
+            localStorage.setItem("receiptData", JSON.stringify(receiptData));
+            window.location.href = "receipt.html";
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("response").addEventListener("keypress", handleEnterPress);
+        });
+    </script>
+</head>
+<body>
+    <div class="vending-machine">
+        <h2 style="color:#89023E">Data Vending</h2>
+        <p class="currency">Total Rupees: <span id="currency">0</span></p>
+        <input type="text" id="name" placeholder="Enter your name" required>
+        <input type="number" id="age" placeholder="Enter your age" required>
+        <input type="text" id="sexuality" placeholder="Enter your sexuality" required>
+        <input type="text" id="relationshiptype" placeholder="Hookups, Short-term or Long-term?" required>
+        <button class="submit" onclick="startSurvey()">Submit</button>
+        <button class="exit" onclick="endSurvey()">Exit & Print Receipt</button>
+        
+        <div class="questions" id="question-section">
+            <p id="question-text"></p>
+            <textarea id="response" placeholder="Type your answer and press Enter" required></textarea>
+        </div>
+    </div>
+</body>
+</html>

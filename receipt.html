@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400&family=IBM+Plex+Mono:wght@300&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background-color: #F3E1DD;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+            flex-direction: column;
+        }
+
+        .receipt-container {
+            background: #FFFFFF;
+            border: 2px dashed #89023E;
+            padding: 15px;
+            border-radius: 10px;
+            width: 320px;
+            text-align: center;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: auto;
+            max-height: 70vh;
+        }
+
+        h2 {
+            color: #89023E;
+            margin-bottom: 5px;
+        }
+
+        p {
+            font-size: 13px;
+            color: #333;
+            margin: 5px 0;
+            font-weight: 400;
+        }
+
+        .line {
+            border-bottom: 1px dashed #89023E;
+            margin: 10px 0;
+        }
+
+        .questions {
+            text-align: left;
+            font-size: 12px;
+            font-weight: bold;
+            color: #89023E;
+        }
+
+        .answers {
+            font-size: 12px;
+            color: #333;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+
+        .footer-text {
+            font-size: 11px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .btn {
+            background-color: #CC7178;
+            color: #FFFFFF;
+            border: none;
+            padding: 10px 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        .btn-container {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="receipt-container">
+        <h2>Data Vending Receipt</h2>
+        <p><strong>Name:</strong> <span id="receipt-name"></span></p>
+        <p><strong>Age:</strong> <span id="receipt-age"></span></p>
+        <p><strong>Sexuality:</strong> <span id="receipt-sexuality"></span></p>
+         <p><strong>Relationship Type:</strong> <span id="receipt-relationshiptype"></span></p>
+        <p><strong>Currency Earned:</strong> <span id="receipt-currency"></span> Rupees</p>
+        <div class="line"></div>
+
+        <h3 style="color:#89023E;">Responses:</h3>
+        <div id="receipt-questions"></div>
+
+        <p class="footer-text">Thank you for your participation!</p>
+    </div>
+
+    <div class="btn-container">
+        <button class="btn" onclick="goBack()">Take Me Back</button>
+    </div>
+
+    <script>
+        function loadReceiptData() {
+            let receiptData = JSON.parse(localStorage.getItem("receiptData"));
+            if (receiptData) {
+                document.getElementById("receipt-name").innerText = receiptData.name;
+                document.getElementById("receipt-age").innerText = receiptData.age;
+                document.getElementById("receipt-sexuality").innerText = receiptData.sexuality;
+                document.getElementById("receipt-relationshiptype").innerText = receiptData.relationshiptype;
+                
+                // Calculate currency earned (10 Rupees per answered question)
+                let currencyEarned = receiptData.responses.length * 10;
+                document.getElementById("receipt-currency").innerText = currencyEarned;
+
+                let questionsContainer = document.getElementById("receipt-questions");
+                receiptData.responses.forEach(entry => {
+                    let questionElement = document.createElement("p");
+                    questionElement.innerText = entry.question;
+                    questionElement.classList.add("questions");
+
+                    let answerElement = document.createElement("p");
+                    answerElement.innerText = entry.answer;
+                    answerElement.classList.add("answers");
+
+                    questionsContainer.appendChild(questionElement);
+                    questionsContainer.appendChild(answerElement);
+                });
+            }
+        }
+
+        function goBack() {
+            window.location.href = "index.html";
+        }
+
+        document.addEventListener("DOMContentLoaded", loadReceiptData);
+    </script>
+
+</body>
+</html>

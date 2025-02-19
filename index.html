@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms and Conditions</title>
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F3E1DD;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .popup {
+            background: #FFFFFF;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            text-align: center;
+            border: 3px solid #89023E;
+            z-index: 10;
+        }
+        .popup h2 {
+            margin-top: 0;
+            color: #89023E;
+            font-size: 24px;
+        }
+        .popup p {
+            font-size: 16px;
+            color: #000000;
+        }
+        .popup button {
+            margin-top: 10px;
+            padding: 12px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .read-more {
+            background-color: #CC7178;
+            color: #FFFFFF;
+        }
+        .accept {
+            background-color: #C7D9B7;
+            color: #000000;
+        }
+        .terms-container {
+            display: none;
+            text-align: left;
+            font-size: 14px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            border-top: 2px solid #89023E;
+        }
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #CC7178;
+            transform: rotate(45deg);
+        }
+
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #CC7178;
+        }
+
+        .heart::before {
+            top: -20px;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: -20px;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(45deg); opacity: 1; }
+            50% { transform: translateY(-20px) rotate(45deg); opacity: 0.6; }
+            100% { transform: translateY(0) rotate(45deg); opacity: 1; }
+        }
+    </style>
+    <script>
+        function createHearts() {
+            for (let i = 0; i < 30; i++) {
+                let heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.style.left = Math.random() * window.innerWidth + 'px';
+                heart.style.top = Math.random() * window.innerHeight + 'px';
+                heart.style.animation = `float ${Math.random() * 3 + 2}s infinite ease-in-out`;
+                document.body.appendChild(heart);
+            }
+        }
+        window.onload = createHearts;
+    </script>
+</head>
+<body>
+    <div class="popup">
+        <h2>Terms and Conditions</h2>
+        <p>By engaging with the "LOVE - TO GO" installation, you agree to our Terms and Conditions.</p>
+        <button id="read-more" class="read-more" onclick="document.getElementById('terms-text').style.display = 'block'; this.style.display = 'none';">Read More</button>
+        <div id="terms-text" class="terms-container">
+            <p><strong>Effective Date: 20th February 2025</strong></p>
+            <p><strong>1. AGREEMENT TO TERMS</strong></p>
+            <p>By engaging with the "LOVE - TO GO" installation, User Data shall be stored, processed, analysed, and disseminated at the sole discretion of LOVE - TO GO Inc., for but not limited to research, experimental analysis, commercial development, algorithmic refinement, and external dissemination to third-party entities, affiliates, subsidiaries, strategic partners, and data processors, both domestically and internationally.</p>
+            <p><strong>2. USAGE AND OWNERSHIP OF DATA</strong></p>
+            <p>All User Data collected via the Service shall become the exclusive, irrevocable property of the Company. The Participant relinquishes any and all rights, ownership claims, and proprietary interests in said User Data.</p>
+            <p><strong>3. LIMITATION OF LIABILITY</strong></p>
+            <p>The Company shall not be held responsible for any outcomes, events, or occurrences arising from or related to the Participant's engagement with an individual they have been matched with. The Company assumes no liability for any interactions, communications, meetings, or relationships formed during or after participation in the Service.</p>
+            <p><strong>4. NO EXPECTATION OF PRIVACY</strong></p>
+            <p>The Participant expressly acknowledges that participation in the Service does not constitute a confidential engagement. The Participant has no expectation of privacy concerning any data, personal information, or recorded material collected by the Service.</p>
+            <p><strong>5. NON-REVOCABILITY OF CONSENT</strong></p>
+            <p>The Participant acknowledges that consent granted herein is perpetual, worldwide, non-revocable, royalty-free, and transferable. The Participant waives all rights to withdraw consent for any past, present, or future data collection and processing activities associated with the Service.</p>
+            <p><strong>6. GOVERNING LAW AND JURISDICTION</strong></p>
+            <p>This Agreement shall be governed by and construed in accordance with the laws of India. Any disputes arising from or relating to these Terms shall be subject to the exclusive jurisdiction of the courts in India.</p>
+            <p><strong>7. SEVERABILITY</strong></p>
+            <p>If any provision of this Agreement is found to be unlawful, void, or unenforceable, such provision shall be deemed severable from the Agreement and shall not affect the validity or enforceability of the remaining provisions.</p>
+            <p><strong>8. ENTIRE AGREEMENT</strong></p>
+            <p>This Agreement constitutes the full and complete understanding between the Participant and the Company regarding the subject matter herein and supersedes any prior agreements, representations, or understandings, whether written or oral.</p>
+            <p><strong>9. ACKNOWLEDGEMENT</strong></p>
+            <p>By engaging with the Service, the Participant expressly acknowledges that they have read, understood, and voluntarily agreed to all terms and conditions contained herein, and that their continued participation constitutes legally binding acceptance.</p>
+        </div>
+        <button class="accept" onclick="window.location.href='datavending.html'">Accept</button>
+    </div>
+</body>
+</html>
